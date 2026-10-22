@@ -1,1 +1,117 @@
-
+<!DOCTYPE html><html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>نظام ضمان سيلفي | SELViE</title>
+<style>
+:root{--gold:#d8bd67;--bg:#101116;--panel:#1b1c22;--text:#f6f2e7;--muted:#aaa9a3}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Tahoma,Arial,sans-serif}
+header{background:#090a0d;border-bottom:1px solid #39352a;padding:20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{font-size:25px;font-weight:bold;color:var(--gold);letter-spacing:2px}
+header small{display:block;color:#ddd;font-size:13px;margin-top:7px}
+.container{max-width:1100px;margin:auto;padding:20px}
+h1{font-size:23px;margin:10px 0;color:var(--gold)}
+.notice{border:1px solid #6f5d2d;background:#282315;padding:13px;border-radius:10px;line-height:1.8;font-size:13px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px;margin:20px 0}
+.stat,.card{background:var(--panel);border:1px solid #303039;border-radius:13px;padding:17px}
+.stat span{display:block;color:var(--muted);font-size:13px;margin-bottom:12px}
+.stat strong{font-size:26px;color:var(--gold)}
+nav{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}
+button{cursor:pointer;border:1px solid #554a2c;background:#29251a;color:var(--gold);border-radius:8px;padding:11px 15px;font-weight:bold}
+button.active,button.primary{background:var(--gold);color:#17140c}
+input,select{width:100%;padding:12px;background:#101116;color:white;border:1px solid #41414a;border-radius:7px;margin:6px 0 13px;font-size:15px}
+label{font-size:13px;color:#d5d0c3}
+.formgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+table{width:100%;border-collapse:collapse;min-width:800px}
+th,td{padding:12px;border-bottom:1px solid #383840;text-align:right;font-size:13px}
+th{color:var(--gold)}
+.tablewrap{overflow-x:auto}
+.empty{color:var(--muted);padding:20px;text-align:center}
+footer{text-align:center;padding:30px;color:#777;font-size:12px}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<header>
+  <div><div class="brand">SELViE</div><small>نظام إدارة الضمانات والصيانة</small></div>
+  <div style="color:var(--gold)">الإدارة المركزية | الإصدار التجريبي</div>
+</header>
+<main class="container">
+<h1>لوحة التحكم الرئيسية</h1>
+<div class="notice">⚠️ نسخة تجريبية: البيانات محفوظة في هذا المتصفح فقط، وليست مشتركة بين الفروع. لا تستخدم بيانات عملاء حقيقية قبل إعداد تسجيل الدخول وقاعدة البيانات الآمنة.</div>
+<section class="stats">
+ <div class="stat"><span>إجمالي الضمانات المسجلة على هذا الجهاز</span><strong id="total">0</strong></div>
+ <div class="stat"><span>الضمانات السارية</span><strong id="valid">0</strong></div>
+ <div class="stat"><span>الضمانات المنتهية</span><strong id="expired">0</strong></div>
+ <div class="stat"><span>الفروع</span><strong>9</strong></div>
+</section>
+<nav>
+<button class="active" onclick="showTab('add',this)">＋ تسجيل ضمان</button>
+<button onclick="showTab('records',this)">▤ سجل الضمانات</button>
+<button onclick="showTab('lookup',this)">⌕ استعلام عن ضمان</button>
+</nav>
+<section id="add" class="card">
+<h2 style="color:var(--gold)">تسجيل ضمان جديد</h2>
+<form id="warrantyForm">
+<div class="formgrid">
+<div><label>اسم العميل</label><input id="customer" required placeholder="اسم العميل التجريبي"></div>
+<div><label>رقم الجوال</label><input id="phone" required type="tel" placeholder="رقم الجوال"></div>
+<div><label>رقم الفاتورة</label><input id="invoice" required placeholder="رقم الفاتورة"></div>
+<div><label>اسم المنتج</label><input id="product" required placeholder="اسم المنتج"></div>
+<div><label>الموديل</label><input id="model" placeholder="موديل المنتج"></div>
+<div><label>الرقم التسلسلي</label><input id="serial" required placeholder="Serial Number"></div>
+<div><label>الفرع</label><select id="branch" required><option value="">اختر الفرع</option><option>الفرع 1</option><option>الفرع 2</option><option>الفرع 3</option><option>الفرع 4</option><option>الفرع 5</option><option>الفرع 6</option><option>الفرع 7</option><option>الفرع 8</option><option>الفرع 9</option></select></div>
+<div><label>تاريخ الشراء</label><input id="purchase" type="date" required></div>
+<div><label>مدة الضمان (بالأشهر)</label><select id="months"><option value="3">3 أشهر</option><option value="6">6 أشهر</option><option value="12" selected>12 شهرًا</option><option value="24">24 شهرًا</option><option value="36">36 شهرًا</option></select></div>
+</div>
+<button class="primary" type="submit">حفظ الضمان التجريبي</button>
+</form>
+</section>
+<section id="records" class="card hidden">
+<h2 style="color:var(--gold)">سجل الضمانات</h2>
+<input id="search" placeholder="ابحث بالعميل أو الجوال أو السيريال أو الفاتورة" oninput="render()">
+<div class="tablewrap"><table><thead><tr><th>رقم الضمان</th><th>العميل</th><th>المنتج</th><th>السيريال</th><th>الفرع</th><th>انتهاء الضمان</th><th>الحالة</th></tr></thead><tbody id="rows"></tbody></table></div>
+<div id="empty" class="empty">لا توجد ضمانات مسجلة حتى الآن.</div>
+</section>
+<section id="lookup" class="card hidden">
+<h2 style="color:var(--gold)">استعلام عن ضمان</h2>
+<label>أدخل رقم الضمان أو الرقم التسلسلي</label>
+<input id="lookupValue" placeholder="رقم الضمان أو Serial Number">
+<button class="primary" onclick="lookup()">استعلام</button>
+<div id="lookupResult"></div>
+</section>
+</main>
+<footer>SELViE Warranty System · نموذج أولي تجريبي</footer>
+<script>
+const KEY='selvie_demo_warranties_v1';
+let data=[];try{data=JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){}
+function save(){localStorage.setItem(KEY,JSON.stringify(data));render()}
+function endDate(date,months){let d=new Date(date+'T12:00:00');d.setMonth(d.getMonth()+Number(months));return d}
+function status(w){return endDate(w.purchase,w.months)>=new Date()?'ساري':'منتهي'}
+function showTab(id,btn){document.querySelectorAll('main section').forEach(s=>s.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');if(id==='records')render()}
+document.getElementById('warrantyForm').addEventListener('submit',e=>{
+e.preventDefault();
+const w={id:'SV-'+Date.now().toString().slice(-8),customer:customer.value.trim(),phone:phone.value.trim(),invoice:invoice.value.trim(),product:product.value.trim(),model:model.value.trim(),serial:serial.value.trim(),branch:branch.value,purchase:purchase.value,months:months.value};
+if(data.some(x=>x.serial.toLowerCase()===w.serial.toLowerCase())){alert('هذا الرقم التسلسلي مسجل مسبقًا في هذا المتصفح.');return}
+data.push(w);save();alert('تم حفظ الضمان التجريبي. رقم الضمان: '+w.id);e.target.reset()
+});
+function render(){
+document.getElementById('total').textContent=data.length;
+document.getElementById('valid').textContent=data.filter(w=>status(w)==='ساري').length;
+document.getElementById('expired').textContent=data.filter(w=>status(w)==='منتهي').length;
+const q=(document.getElementById('search')?.value||'').toLowerCase();
+const list=data.filter(w=>[w.id,w.customer,w.phone,w.invoice,w.product,w.serial,w.branch].some(v=>String(v).toLowerCase().includes(q)));
+document.getElementById('rows').innerHTML=list.map(w=>`<tr><td>${esc(w.id)}</td><td>${esc(w.customer)}</td><td>${esc(w.product)}</td><td>${esc(w.serial)}</td><td>${esc(w.branch)}</td><td>${endDate(w.purchase,w.months).toLocaleDateString('ar')}</td><td>${status(w)}</td></tr>`).join('');
+document.getElementById('empty').style.display=list.length?'none':'block'
+}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function lookup(){
+const q=document.getElementById('lookupValue').value.trim().toLowerCase();
+const w=data.find(x=>x.id.toLowerCase()===q||x.serial.toLowerCase()===q);
+document.getElementById('lookupResult').innerHTML=w?`<div class="card" style="margin-top:15px"><h3 style="color:var(--gold)">نتيجة الاستعلام</h3><p>رقم الضمان: ${esc(w.id)}</p><p>المنتج: ${esc(w.product)}</p><p>الموديل: ${esc(w.model)}</p><p>تاريخ الشراء: ${esc(w.purchase)}</p><p>تاريخ الانتهاء: ${endDate(w.purchase,w.months).toLocaleDateString('ar')}</p><p>الحالة: ${status(w)}</p></div>`:'<p>لم يتم العثور على ضمان مطابق في بيانات هذا الجهاز.</p>'
+}
+render();
+</script>
+</body>
+</html>
